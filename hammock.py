@@ -7,18 +7,20 @@ class Hammock(object):
 
     HTTP_METHODS = ['get', 'options', 'head', 'post', 'put', 'patch', 'delete']
 
-    def __init__(self, name=None, parent=None, append_slash=False, **kwargs):
+    def __init__(self, name=None, parent=None, append_slash=False, strip_slash=False, **kwargs):
         """Constructor
 
         Arguments:
             name -- name of node
             parent -- parent node for chaining
             append_slash -- flag if you want a trailing slash in urls
+            strip_slashes -- flag if you want to strip leading and trailing slashes from arguments
             **kwargs -- `requests` session be initiated with if any available
         """
         self._name = name
         self._parent = parent
         self._append_slash = append_slash
+        self._strip_slash = strip_slash
         self._session = requests.session()
         for k, v in kwargs.items():
             orig = getattr(self._session, k)  # Let it throw exception
@@ -35,6 +37,8 @@ class Hammock(object):
         """
         child = copy.copy(self)
         child._name = name
+        if self._strip_slash:
+            child._name = child._name.lstrip('/').rstrip('/')
         child._parent = self
         return child
 
