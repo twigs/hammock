@@ -94,20 +94,17 @@ class TestCaseWrest(unittest.TestCase):
         self.assertEqual(request.headers.get('Accept'), ACCEPT_HEADER)
 
     @httprettified
-    def test_strip_slash_option(self):
+    def test_strip_slash(self):
+        """
+        test if leading and trailing slashes are removed (e.g. from resource uris)
+        """
         HTTPretty.register_uri(HTTPretty.GET, self.URL)
-        client = Hammock(self.BASE_URL, strip_slash=True)
+        client = Hammock(self.BASE_URL)
         resp = client(self.PATH).GET()
         self.assertEqual(HTTPretty.last_request.path, self.PATH)
         resp = client(self.PATH+'/').GET()
         self.assertEqual(HTTPretty.last_request.path, self.PATH)
 
-    @httprettified
-    def test_append_and_strip_slash_option(self):
-        HTTPretty.register_uri(HTTPretty.GET, self.URL + '/')
-        client = Hammock(self.BASE_URL, strip_slash=True, append_slash='/')
-        resp = client(self.PATH).GET()
-        self.assertEqual(HTTPretty.last_request.path, self.PATH + '/')
 
 if __name__ == '__main__':
     unittest.main()

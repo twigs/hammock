@@ -37,8 +37,7 @@ class Hammock(object):
         """
         child = copy.copy(self)
         child._name = name
-        if self._strip_slash:
-            child._name = child._name.strip('/')
+        child._name = child._name.strip('/')
         child._parent = self
         return child
 

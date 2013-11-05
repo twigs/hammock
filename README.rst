@@ -141,15 +141,7 @@ For example::
     'http://localhost:8000/foo/bar/'
 
 
-If the API you are interfacing with returns resource uris the ``strip_slash`` keyword will strip leading and trailing
-slashes from arguments so they can be used directly. If you need trailing slash in the final url ``append_slash`` and
-``strip_slash`` can be combined::
-
-    >>> import hammock
-    >>> api = hammock.Hammock('http://localhost:8000', strip_slash=True)
-    >>> my_ressource_uri = '/api/v1/users/4711/'
-    >>> print api(my_ressource_uri)
-    http://localhost:8000/api/v1/users/4711
+For APIs returning resource uris ``Hammock`` will strip leading and trailing slashes so they can be used directly.
 
 
 Contributors
